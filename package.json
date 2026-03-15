@@ -1,0 +1,33 @@
+{
+  "name": "navigator-web",
+  "version": "2.0.0",
+  "description": "苹果风格多端自适应导航网站 - 性能优化版本",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "serve": "python3 -m http.server 8000",
+    "embed": "node embed-data.js",
+    "minify": "node minify.js",
+    "optimize": "npm run embed && npm run minify",
+    "test": "echo 'Open browser and check DevTools Network tab'",
+    "deploy": "git push"
+  },
+  "keywords": [
+    "navigator",
+    "navigation",
+    "web",
+    "static",
+    "cloudflare-pages"
+  ],
+  "author": "",
+  "license": "MIT",
+  "notes": {
+    "local-dev": "npm run dev (or: python -m http.server 8000)",
+    "performance-tips": [
+      "1. 使用 embed 脚本内嵌 JSON 数据",
+      "2. 部署到 Cloudflare Pages 并启用自动最小化",
+      "3. 上传 _headers 和 _redirects 文件",
+      "4. 使用 minify.js 压缩 CSS/JS/JSON",
+      "5. 在 Chrome DevTools 中验证加载时间"
+    ]
+  }
+}
