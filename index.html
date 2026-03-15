@@ -7,179 +7,104 @@
   <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
   <title>Navigator</title>
-
-  <!-- Favicon (SVG emoji) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>" />
-
-  <!-- Stylesheet -->
   <link rel="stylesheet" href="./style.css" />
 </head>
-
 <body>
 
-  <!-- ══════════════════════════════════
-       TOP NAVIGATION BAR
-  ══════════════════════════════════ -->
+  <!-- ══ 顶部导航栏 ══ -->
   <header class="navbar" role="banner">
-
-    <!-- Hamburger (mobile only) -->
     <button id="hamburger" class="hamburger" aria-label="打开菜单" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
-
-    <!-- Logo -->
-    <a class="navbar-logo" href="/" aria-label="Navigator 首页">
-      <div class="logo-icon">✦</div>
-      <span class="logo-text">Navigator</span>
+    <a class="navbar-logo" href="#" aria-label="Navigator 首页">
+      <div class="logo-icon" id="logoIcon">✦</div>
+      <span class="logo-text" id="logoText">Navigator</span>
     </a>
-
-    <!-- Search Bar -->
     <div class="navbar-search" role="search">
-      <div class="search-input-wrap">
-        <span class="search-icon" aria-hidden="true">
-          <!-- Magnifier SVG -->
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <div class="search-wrap">
+        <span class="search-ico" aria-hidden="true">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
           </svg>
         </span>
-        <input
-          type="search"
-          id="searchInput"
-          placeholder="搜索网站...  ⌘K"
-          autocomplete="off"
-          autocorrect="off"
-          spellcheck="false"
-          aria-label="搜索导航站"
-        />
+        <input type="search" id="searchInput"
+          placeholder="搜索网站…  ⌘K"
+          autocomplete="off" autocorrect="off" spellcheck="false"
+          aria-label="搜索导航站" />
         <button id="searchClear" class="search-clear" aria-label="清空搜索">✕</button>
       </div>
     </div>
-
-    <!-- Right Controls -->
-    <nav class="navbar-controls" aria-label="工具栏">
-      <button id="themeToggle" class="icon-btn" aria-label="切换主题" title="切换深色 / 浅色模式">🌙</button>
-    </nav>
+    <div class="navbar-right">
+      <button id="themeToggle" class="icon-btn" title="切换深色 / 浅色模式" aria-label="切换主题">🌙</button>
+    </div>
   </header>
 
-
-  <!-- ══════════════════════════════════
-       LAYOUT WRAPPER
-  ══════════════════════════════════ -->
+  <!-- ══ 页面布局 ══ -->
   <div class="layout">
 
-    <!-- ── SIDEBAR ── -->
+    <!-- 侧边栏 -->
     <aside id="sidebar" class="sidebar" role="navigation" aria-label="分类导航">
-      <p class="sidebar-section-title">分类</p>
-      <ul id="sidebarNav" class="sidebar-nav" role="list">
-        <!-- Built by JS -->
-      </ul>
+      <p class="sidebar-title">分类</p>
+      <ul id="sidebarNav" class="sidebar-nav" role="list"></ul>
     </aside>
+    <div id="overlay" class="overlay" role="presentation"></div>
 
-    <!-- Mobile sidebar overlay -->
-    <div id="sidebarOverlay" class="sidebar-overlay" role="presentation"></div>
-
-    <!-- ── MAIN ── -->
-    <main id="mainContent" class="main-content" role="main">
-
-      <!-- Hero Banner -->
+    <!-- 主内容区 -->
+    <main id="mainArea" class="main" role="main">
       <div class="hero">
         <h1 class="hero-title" id="heroTitle">欢迎来到 <span>Navigator</span></h1>
         <p class="hero-sub" id="heroSub">你的专属导航中心</p>
       </div>
 
-      <!-- Search Results Panel (hidden by default) -->
+      <!-- 搜索结果（默认隐藏） -->
       <div id="searchResults" aria-live="polite"></div>
 
-      <!-- Category Sections Container -->
-      <div id="categoriesContainer" style="display:none;">
-        <!-- Skeleton placeholders while loading -->
+      <!-- 分类卡片区 -->
+      <div id="catContainer">
         <div class="skeleton-grid">
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div><div class="skeleton-card"></div>
+          <div class="skeleton-card"></div><div class="skeleton-card"></div>
         </div>
         <div class="skeleton-grid">
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div><div class="skeleton-card"></div>
+          <div class="skeleton-card"></div><div class="skeleton-card"></div>
         </div>
       </div>
 
-      <!-- Footer -->
       <footer class="footer" role="contentinfo">
-        <p>由 <strong>Navigator</strong> 强力驱动 · 数据来自 <code>assets/nav.json</code></p>
+        由 <strong>Navigator</strong> 强力驱动 &nbsp;·&nbsp;
+        数据来自 <code>assets/nav.json</code>
       </footer>
-
     </main>
-  </div><!-- /layout -->
+  </div>
 
-
-  <!-- Scroll to Top Button -->
+  <!-- 返回顶部 -->
   <button id="scrollTop" aria-label="返回顶部" title="返回顶部">↑</button>
 
-  <!-- ══════════════════════════════════
-       WECHAT MODAL (POPUP)
-  ══════════════════════════════════ -->
-  <div id="wechatModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="modal-overlay"></div>
-    <div class="modal-container">
-      <!-- Close Button -->
-      <button id="modalClose" class="modal-close" aria-label="关闭弹窗">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-
-      <!-- Modal Content -->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 id="modalTitle">关注我们的公众号</h2>
-        </div>
-
-        <div class="modal-body">
-          <!-- QR Code -->
-          <div class="qr-code-container">
-            <div class="qr-placeholder" id="qrCode">
-              <!-- QR 码会被插入这里 -->
-              <svg viewBox="0 0 200 200" width="200" height="200">
-                <rect width="200" height="200" fill="white"/>
-                <text x="100" y="100" text-anchor="middle" dy=".3em" fill="#999">📱 二维码</text>
-              </svg>
-            </div>
-            <p class="qr-hint">使用微信扫一扫上面的二维码</p>
-          </div>
-
-          <!-- Text Content -->
-          <div class="modal-text">
-            <p>关注我们的公众号获取：</p>
-            <ul class="benefits-list">
-              <li>最新资讯和技术分享</li>
-              <li>免费资源和工具推荐</li>
-              <li>优质内容早一步获取</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Modal Footer -->
-        <div class="modal-footer">
-          <button id="modalConfirm" class="btn-primary">
-            已关注，继续访问
-          </button>
-          <a id="modalLink" href="" class="btn-secondary" target="_blank" rel="noopener noreferrer">
-            直接访问
-          </a>
-        </div>
+  <!-- 公众号推荐弹窗 -->
+  <div id="modalOverlay" class="modal-overlay" role="presentation"></div>
+  <div id="modal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
+    <button id="modalClose" class="modal-close" aria-label="关闭弹窗">✕</button>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">公众号推荐</h2>
+        <p id="modalDesc"></p>
+      </div>
+      <div class="modal-body">
+        <div id="modalQRCode" class="modal-qrcode"></div>
+        <div id="modalInfo" class="modal-info"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="modalGo" class="btn btn-primary">前往网站</button>
+        <button id="modalSkip" class="btn btn-secondary">关闭</button>
       </div>
     </div>
   </div>
 
-  <!-- Main Script -->
+  <!-- 脚本 -->
   <script src="./main.js"></script>
-
 </body>
 </html>

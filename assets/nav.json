@@ -4,6 +4,13 @@
     "subtitle": "你的专属导航中心",
     "logo": "✦"
   },
+  "wechatConfig": {
+    "title": "订阅公众号",
+    "description": "关注我们的微信公众号，获取最新资讯和独家内容",
+    "qrCode": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23fff' width='100' height='100'/%3E%3Crect fill='%23000' x='10' y='10' width='30' height='30'/%3E%3Crect fill='%23000' x='60' y='10' width='30' height='30'/%3E%3Crect fill='%23000' x='10' y='60' width='30' height='30'/%3E%3Crect fill='%23000' x='45' y='45' width='10' height='10'/%3E%3C/svg%3E",
+    "wechatId": "tech_navigator",
+    "extra": "加入 20000+ 用户的社群，分享导航站点独家资源"
+  },
   "categories": [
     {
       "id": "search",
@@ -11,10 +18,10 @@
       "icon": "🔍",
       "color": "#0071e3",
       "links": [
-        { "name": "Google", "url": "https://www.google.com", "desc": "全球最大搜索引擎", "icon": "🌐", "showModal": true },
-        { "name": "Bing", "url": "https://www.bing.com", "desc": "微软必应搜索", "icon": "🔷" },
-        { "name": "百度", "url": "https://www.baidu.com", "desc": "国内领先搜索引擎", "icon": "🔴" },
-        { "name": "DuckDuckGo", "url": "https://duckduckgo.com", "desc": "隐私保护搜索", "icon": "🦆" }
+        { "name": "Google",     "url": "https://www.google.com",    "desc": "全球最大搜索引擎",   "icon": "🌐", "showModal": true },
+        { "name": "Bing",       "url": "https://www.bing.com",      "desc": "微软必应搜索",       "icon": "🔷" },
+        { "name": "百度",        "url": "https://www.baidu.com",     "desc": "国内领先搜索引擎",   "icon": "🔴" },
+        { "name": "DuckDuckGo", "url": "https://duckduckgo.com",    "desc": "隐私保护搜索",       "icon": "🦆" }
       ]
     },
     {
@@ -23,11 +30,11 @@
       "icon": "🤖",
       "color": "#bf5af2",
       "links": [
-        { "name": "ChatGPT", "url": "https://chat.openai.com", "desc": "OpenAI 对话 AI", "icon": "💬", "showModal": true },
-        { "name": "Claude", "url": "https://claude.ai", "desc": "Anthropic AI 助手", "icon": "✦" },
-        { "name": "Gemini", "url": "https://gemini.google.com", "desc": "Google AI 助手", "icon": "♊" },
-        { "name": "Midjourney", "url": "https://www.midjourney.com", "desc": "AI 图像生成", "icon": "🎨" },
-        { "name": "Perplexity", "url": "https://www.perplexity.ai", "desc": "AI 搜索引擎", "icon": "⚡", "showModal": true }
+        { "name": "ChatGPT",    "url": "https://chat.openai.com",    "desc": "OpenAI 对话 AI",    "icon": "💬", "showModal": true },
+        { "name": "Claude",     "url": "https://claude.ai",          "desc": "Anthropic AI 助手", "icon": "✦"  },
+        { "name": "Gemini",     "url": "https://gemini.google.com",  "desc": "Google AI 助手",    "icon": "♊"  },
+        { "name": "Midjourney", "url": "https://www.midjourney.com", "desc": "AI 图像生成",        "icon": "🎨" },
+        { "name": "Perplexity", "url": "https://www.perplexity.ai",  "desc": "AI 搜索引擎",        "icon": "⚡" }
       ]
     },
     {
@@ -36,11 +43,11 @@
       "icon": "💻",
       "color": "#34c759",
       "links": [
-        { "name": "GitHub", "url": "https://github.com", "desc": "代码托管平台", "icon": "🐙", "showModal": true },
-        { "name": "Stack Overflow", "url": "https://stackoverflow.com", "desc": "开发者问答社区", "icon": "📚" },
-        { "name": "MDN", "url": "https://developer.mozilla.org", "desc": "Web 开发文档", "icon": "📖" },
-        { "name": "CodePen", "url": "https://codepen.io", "desc": "前端代码演示", "icon": "✏️" },
-        { "name": "Vercel", "url": "https://vercel.com", "desc": "前端部署平台", "icon": "▲" }
+        { "name": "GitHub",         "url": "https://github.com",            "desc": "代码托管平台",     "icon": "🐙", "showModal": true },
+        { "name": "Stack Overflow", "url": "https://stackoverflow.com",     "desc": "开发者问答社区",   "icon": "📚" },
+        { "name": "MDN",            "url": "https://developer.mozilla.org", "desc": "Web 开发文档",     "icon": "📖" },
+        { "name": "CodePen",        "url": "https://codepen.io",            "desc": "前端代码演示",     "icon": "✏️" },
+        { "name": "Vercel",         "url": "https://vercel.com",            "desc": "前端部署平台",     "icon": "▲"  }
       ]
     },
     {
@@ -49,10 +56,10 @@
       "icon": "🎨",
       "color": "#ff375f",
       "links": [
-        { "name": "Figma", "url": "https://www.figma.com", "desc": "UI 设计协作工具", "icon": "🖌️" },
-        { "name": "Dribbble", "url": "https://dribbble.com", "desc": "设计师作品展示", "icon": "🏀" },
-        { "name": "Unsplash", "url": "https://unsplash.com", "desc": "免费高清图片库", "icon": "📷", "showModal": true },
-        { "name": "Iconify", "url": "https://iconify.design", "desc": "开源图标集合", "icon": "🔠" }
+        { "name": "Figma",    "url": "https://www.figma.com",   "desc": "UI 设计协作工具", "icon": "🖌️" },
+        { "name": "Dribbble", "url": "https://dribbble.com",    "desc": "设计师作品展示",  "icon": "🏀"  },
+        { "name": "Unsplash", "url": "https://unsplash.com",    "desc": "免费高清图片库",  "icon": "📷"  },
+        { "name": "Iconify",  "url": "https://iconify.design",  "desc": "开源图标集合",    "icon": "🔠"  }
       ]
     },
     {
@@ -61,10 +68,10 @@
       "icon": "💬",
       "color": "#ff9f0a",
       "links": [
-        { "name": "X (Twitter)", "url": "https://x.com", "desc": "实时信息平台", "icon": "𝕏" },
-        { "name": "YouTube", "url": "https://www.youtube.com", "desc": "视频分享平台", "icon": "▶️", "showModal": true },
-        { "name": "Reddit", "url": "https://www.reddit.com", "desc": "社区讨论论坛", "icon": "🤖" },
-        { "name": "LinkedIn", "url": "https://www.linkedin.com", "desc": "职业社交网络", "icon": "💼" }
+        { "name": "X (Twitter)", "url": "https://x.com",             "desc": "实时信息平台", "icon": "𝕏"  },
+        { "name": "YouTube",     "url": "https://www.youtube.com",   "desc": "视频分享平台", "icon": "▶️" },
+        { "name": "Reddit",      "url": "https://www.reddit.com",    "desc": "社区讨论论坛", "icon": "🤖" },
+        { "name": "LinkedIn",    "url": "https://www.linkedin.com",  "desc": "职业社交网络", "icon": "💼" }
       ]
     },
     {
@@ -73,10 +80,10 @@
       "icon": "⚡",
       "color": "#5ac8fa",
       "links": [
-        { "name": "Notion", "url": "https://www.notion.so", "desc": "全能笔记工具", "icon": "📝", "showModal": true },
-        { "name": "Obsidian", "url": "https://obsidian.md", "desc": "本地知识库", "icon": "💎" },
-        { "name": "Excalidraw", "url": "https://excalidraw.com", "desc": "手绘风白板", "icon": "✍️" },
-        { "name": "Linear", "url": "https://linear.app", "desc": "项目管理工具", "icon": "🎯" }
+        { "name": "Notion",     "url": "https://www.notion.so",  "desc": "全能笔记工具", "icon": "📝", "showModal": true },
+        { "name": "Obsidian",   "url": "https://obsidian.md",    "desc": "本地知识库",   "icon": "💎" },
+        { "name": "Excalidraw", "url": "https://excalidraw.com", "desc": "手绘风白板",   "icon": "✍️" },
+        { "name": "Linear",     "url": "https://linear.app",     "desc": "项目管理工具", "icon": "🎯" }
       ]
     }
   ]
