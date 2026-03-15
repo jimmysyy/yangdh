@@ -7,6 +7,16 @@
 'use strict';
 
 /* ══════════════════════════════════════
+   性能计时
+══════════════════════════════════════ */
+const PERF = {
+  start: performance.now(),
+  domContentLoaded: null,
+  dataLoaded: null,
+  completed: null,
+};
+
+/* ══════════════════════════════════════
    状态
 ══════════════════════════════════════ */
 const S = {
@@ -41,7 +51,9 @@ async function loadData() {
     const res = await fetch('./assets/nav.json');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     S.data = await res.json();
+    PERF.dataLoaded = performance.now();
     initSite();
+    showLoadTime();
   } catch (err) {
     console.error('[Navigator] 数据加载失败:', err);
     showError();
@@ -110,6 +122,32 @@ function selectCat(id) {
 /* ══════════════════════════════════════
    分类 & 卡片
 ══════════════════════════════════════ */
+function showLoadTime() {
+  const loadEl = $('loadTime');
+  if (!loadEl) return;
+  
+  const totalTime = Math.round(PERF.dataLoaded - PERF.start);
+  const minutes = Math.floor(totalTime / 60000);
+  const seconds = Math.floor((totalTime % 60000) / 1000);
+  const ms = totalTime % 1000;
+  
+  let timeStr = '';
+  if (minutes > 0) timeStr = `${minutes}m ${seconds}s`;
+  else if (seconds > 0) timeStr = `${seconds}s ${ms}ms`;
+  else timeStr = `${ms}ms`;
+  
+  // 添加视觉反馈：快速(绿)/正常(蓝)/缓慢(橙)/很慢(红)
+  let speed = '';
+  if (totalTime < 500) speed = 'super-fast';
+  else if (totalTime < 1000) speed = 'fast';
+  else if (totalTime < 2000) speed = 'normal';
+  else if (totalTime < 3500) speed = 'slow';
+  else speed = 'very-slow';
+  
+  loadEl.className = `load-time ${speed}`;
+  loadEl.innerHTML = `⚡ ${timeStr}`;
+}
+
 function buildCategories(cats) {
   $$('.skeleton-grid').forEach(el => el.remove());
   const cont = $('catContainer');
@@ -376,6 +414,7 @@ function bindEvents() {
    启动
 ══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
+  PERF.domContentLoaded = performance.now();
   applyTheme(S.theme);
   bindEvents();
   loadData();
