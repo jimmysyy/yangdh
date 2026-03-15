@@ -48,10 +48,16 @@ function hi(text, q) {
 ══════════════════════════════════════ */
 async function loadData() {
   try {
-    const res = await fetch('./assets/nav.json');
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    S.data = await res.json();
-    PERF.dataLoaded = performance.now();
+    // 优先使用内嵌数据（从 index.html 中注入），其次 fallback 到 fetch
+    if (window.NAV_DATA) {
+      S.data = window.NAV_DATA;
+      PERF.dataLoaded = performance.now();
+    } else {
+      const res = await fetch('./assets/nav.json');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      S.data = await res.json();
+      PERF.dataLoaded = performance.now();
+    }
     initSite();
     showLoadTime();
   } catch (err) {
