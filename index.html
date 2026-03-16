@@ -84,6 +84,29 @@
   <!-- 返回顶部 -->
   <button id="scrollTop" aria-label="返回顶部" title="返回顶部">↑</button>
 
+  <!-- 密码验证弹窗 -->
+  <div id="passwordModalOverlay" class="modal-overlay" role="presentation"></div>
+  <div id="passwordModal" class="modal" role="dialog" aria-labelledby="passwordModalTitle" aria-modal="true">
+    <button id="passwordModalClose" class="modal-close" aria-label="关闭弹窗">✕</button>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="passwordModalTitle">需要密码验证</h2>
+        <p id="passwordModalDesc">此分类需要密码验证后才能查看</p>
+      </div>
+      <div class="modal-body">
+        <div class="password-input-group">
+          <input type="password" id="passwordInput" placeholder="请输入密码" class="password-input" autocomplete="off" />
+          <button id="passwordToggle" class="password-toggle" title="显示/隐藏密码">👁️</button>
+        </div>
+        <p class="password-hint" id="passwordHint">关注公众号获取密码</p>
+      </div>
+      <div class="modal-footer">
+        <button id="passwordSubmit" class="btn btn-primary">验证密码</button>
+        <button id="passwordShowWechat" class="btn btn-secondary">关注公众号获取</button>
+      </div>
+    </div>
+  </div>
+
   <!-- 公众号推荐弹窗 -->
   <div id="modalOverlay" class="modal-overlay" role="presentation"></div>
   <div id="modal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
@@ -108,6 +131,8 @@
   <script src="./main.js" defer></script>
 
 
+
+
   <!-- ══ 内嵌导航数据（为了减少网络请求） ══ -->
   <script>
     window.NAV_DATA = {
@@ -123,6 +148,11 @@
     "qrCode": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23fff' width='100' height='100'/%3E%3Crect fill='%23000' x='10' y='10' width='30' height='30'/%3E%3Crect fill='%23000' x='60' y='10' width='30' height='30'/%3E%3Crect fill='%23000' x='10' y='60' width='30' height='30'/%3E%3Crect fill='%23000' x='45' y='45' width='10' height='10'/%3E%3C/svg%3E",
     "wechatId": "tech_navigator",
     "extra": "加入 20000+ 用户的社群，分享导航站点独家资源"
+  },
+  "passwordConfig": {
+    "title": "需要密码验证",
+    "description": "此分类需要密码验证后才能查看。请关注公众号获取密码。",
+    "hint": "密码将通过公众号发送给用户"
   },
   "categories": [
     {
@@ -204,6 +234,7 @@
       "name": "影视影音",
       "icon": "🎥",
       "color": "#ffcc00",
+      "password": "entertain2024",
       "links": [
         { "name": "Netflix",   "url": "https://www.netflix.com",  "desc": "全球流媒体平台", "icon": "📺" },
         { "name": "YouTube",   "url": "https://www.youtube.com",  "desc": "视频分享平台",   "icon": "▶️" },
@@ -216,6 +247,7 @@
       "name": "资源分享",
       "icon": "📚",
       "color": "#8e8e93",
+      "password": "resource2024",
       "links": [
         { "name": "Coursera",  "url": "https://www.coursera.org",  "desc": "在线课程平台",   "icon": "🎓", "showModal": true },
         { "name": "edX",       "url": "https://www.edx.org",       "desc": "大学课程平台",   "icon": "🏫" },
