@@ -132,6 +132,7 @@
   
 
 
+
   <!-- ══ 内嵌导航数据（为了减少网络请求） ══ -->
   <script>
     window.NAV_DATA = {
@@ -155,15 +156,74 @@
   },
   "categories": [
     {
-      "id": "search",
-      "name": "搜索引擎",
-      "icon": "🔍",
-      "color": "#0071e3",
+      "id": "entertainment",
+      "name": "影视资源",
+      "icon": "🎥",
+      "color": "#ffcc00",
       "links": [
-        { "name": "Google",     "url": "https://www.google.com",    "desc": "全球最大搜索引擎",   "icon": "🌐", "showModal": false },
-        { "name": "Bing",       "url": "https://www.bing.com",      "desc": "微软必应搜索",       "icon": "🔷" },
-        { "name": "百度",        "url": "https://www.baidu.com",     "desc": "国内领先搜索引擎",   "icon": "🔴" },
-        { "name": "DuckDuckGo", "url": "https://duckduckgo.com",    "desc": "隐私保护搜索",       "icon": "🦆" }
+        { "name": "注视影视(在线)",   "url": "https://gaze.run/",  "desc": "知名在线影视平台", "icon": "📺" },
+        { "name": "搜片(在线/下载)",   "url": "https://soupian.plus/",  "desc": "在线影视搜索与下载",   "icon": "▶️" },
+        { "name": "剧馍馍(在线)",  "url": "https://www.jumomo.cc/", "desc": "在线影视播放",  "icon": "🎮" },
+        { "name": "达达趣(在线)",      "url": "https://www.dadaqu.cc/",     "desc": "在线蓝光播放平台",     "icon": "🎬" },
+        { "name": "迅雷电影天堂(下载)",      "url": "https://xunlei8.cc/", "desc": "BT种子下载平台",     "icon": "🧲" },
+        { "name": "爱壹帆(国外在线)",      "url": "https://www.yfsp.tv/",     "desc": "(魔法)国外在线影视平台",     "icon": "🐜" }
+      ]
+    },
+    {
+      "id": "books-comics",
+      "name": "图书漫画",
+      "icon": "📚",
+      "color": "#8e8e93",
+      "links": [
+        { "name": "豆瓣", "url": "https://www.douban.com", "desc": "读书、电影、音乐资源", "icon": "📖" },
+        { "name": "安娜的档案(1)", "url": "https://annas-archive.gl/", "desc": "世界上最大的数字图书馆", "icon": "🎨" },
+        { "name": "安娜的档案(2)", "url": "https://annas-archive.pk/", "desc": "世界上最大的数字图书馆", "icon": "🎨" },
+        { "name": "Zlibrary(官方)", "url": "https://zh.z-lib.gd/", "desc": "(官方)最知名盗版书平台", "icon": "🎨" },
+        { "name": "Libgen", "url": "https://libgen.li/index.php", "desc": "图书搜索下载", "icon": "📚" },
+        { "name": "书栈网", "url": "https://www.bookstack.cn/", "desc": "各类工作文档教程", "icon": "📖" },
+        { "name": "码农书籍网", "url": "https://www.manongbook.com/", "desc": "计算机类书籍下载平台", "icon": "📖" },
+        { "name": "我的漫画", "url": "https://mycomic.com/cn", "desc": "每日更新国漫/日漫/韩漫", "icon": "📖" }
+        
+      ]
+    },
+    {
+      "id": "software",
+      "name": "软件下载",
+      "icon": "📦",
+      "color": "#ff6b81",
+      "links": [
+        { "name": "Macked(Mac)", "url": "https://macked.app/", "desc": "专注Mac破解软件", "icon": "💾" },
+        { "name": "Apkpure(安卓)", "url": "https://apkpure.com",     "desc": "平替谷歌应用商店",   "icon": "📂"  },
+        { "name": "LiteApks(安卓)",    "url": "https://liteapks.com/",   "desc": "(魔法)安卓破解软件下载",  "icon": "⚙️"  },
+        { "name": "小众软件","url": "https://www.appinn.com/",   "desc": "多平台小众软件推荐下载",  "icon": "🔧"  },
+        { "name": "Mac618(Mac)",   "url": "https://www.mac618.com/", "desc": "常用Mac破解软件",  "icon": "🧰"  },
+        { "name": "XMac(Mac)",   "url": "https://xmac.cc/", "desc": "精品Mac软件下载",  "icon": "📁"  },
+        { "name": "9Mod(安卓)",   "url": "https://9mod.com/", "desc": "安卓破解软件/游戏",  "icon": "🌐"  }
+      ]
+    },
+    {
+      "id": "download",
+      "name": "资源下载",
+      "icon": "📦",
+      "color": "#00c3ff",
+      "links": [
+        { "name": "BT之家", "url": "https://www.btzhijia.com/", "desc": "BT种子下载平台", "icon": "🧲" }
+      ]
+    },
+    {
+      "id": "gaming",
+      "name": "游戏娱乐",
+      "icon": "🎮",
+      "color": "#00c3ff",
+      "links": [
+        { "name": "Steam",   "url": "https://store.steampowered.com", "desc": "全球最大PC游戏平台", "icon": "🎲" },
+        { "name": "小霸王",  "url": "https://www.yikm.net/",  "desc": "在线游玩多款老游戏",  "icon": "🎯" },
+        { "name": "Gamer520",     "url": "https://www.gamer520.com/",    "desc": "单机游戏下载平台",   "icon": "🕹️" },
+        { "name": "风灵月影",  "url": "https://flingtrainer.com/",  "desc": "(正版)最知名单机游戏修改器",   "icon": "🎮" },
+        { "name": "老男人游戏网",   "url": "https://www.oldmanemu.org/",    "desc": "掌机与家机游戏下载",   "icon": "⚔️" },
+        { "name": "Nexus Mods(魔法)",   "url": "https://www.nexusmods.com/",    "desc": "国外知名游戏模组下载平台",   "icon": "🛠️" },
+        { "name": "ModDB(魔法)",   "url": "https://www.moddb.com/",    "desc": "老牌游戏模组社区平台",   "icon": "🔧" },
+        { "name": "3DM游戏模组",   "url": "https://mod.3dmgame.com/",    "desc": "游戏模组和资源分享平台",   "icon": "🍌" }
       ]
     },
     {
@@ -172,11 +232,24 @@
       "icon": "🤖",
       "color": "#bf5af2",
       "links": [
-        { "name": "ChatGPT",    "url": "https://chat.openai.com",    "desc": "OpenAI 对话 AI",    "icon": "💬", "showModal": false },
-        { "name": "Claude",     "url": "https://claude.ai",          "desc": "Anthropic AI 助手", "icon": "✦"  },
-        { "name": "Gemini",     "url": "https://gemini.google.com",  "desc": "Google AI 助手",    "icon": "♊"  },
+        { "name": "ChatGPT(魔法)",    "url": "https://chat.openai.com",    "desc": "OpenAI 对话 AI",    "icon": "💬", "showModal": false },
+        { "name": "Claude(魔法)",     "url": "https://claude.ai",          "desc": "Anthropic AI 助手", "icon": "✦"  },
+        { "name": "Gemini(魔法)",     "url": "https://gemini.google.com",  "desc": "Google AI 助手",    "icon": "♊"  },
+        { "name": "HeckAI(魔法/免费)",     "url": "https://heck.ai/",    "desc": "免费使用chatgpt&Claude",   "icon": "🎭"  },
+        { "name": "FreeGPT(魔法/免费)",     "url": "https://freegpt.es",    "desc": "免费使用chatgpt等多个平台AI",   "icon": "☁️"  },
         { "name": "Midjourney", "url": "https://www.midjourney.com", "desc": "AI 图像生成",        "icon": "🎨" },
         { "name": "Perplexity", "url": "https://www.perplexity.ai",  "desc": "AI 搜索引擎",        "icon": "⚡" }
+      ]
+    },
+    {
+      "id": "learning",
+      "name": "学习进步",
+      "icon": "📖",
+      "color": "#5ac8fa",
+      "links": [
+        { "name": "菜鸟教程", "url": "https://www.runoob.com/", "desc": "在线自学多种计算机知识", "icon": "🎓" },
+        { "name": "edX",      "url": "https://www.edx.org",      "desc": "在线学习平台", "icon": "📚" },
+        { "name": "成年人英语速成", "url": "https://paragraph.com/@abetterweb3/zgpTdcdHrQuXUMpMA80B", "desc": "成年人快速掌握英语教学", "icon": "🌱" }
       ]
     },
     {
@@ -206,31 +279,6 @@
       ]
     },
     {
-      "id": "social",
-      "name": "社交媒体",
-      "icon": "💬",
-      "color": "#ff9f0a",
-      "links": [
-        { "name": "X (Twitter)", "url": "https://x.com",             "desc": "实时信息平台", "icon": "𝕏"  },
-        { "name": "YouTube",     "url": "https://www.youtube.com",   "desc": "视频分享平台", "icon": "▶️" },
-        { "name": "Reddit",      "url": "https://www.reddit.com",    "desc": "社区讨论论坛", "icon": "🤖" },
-        { "name": "LinkedIn",    "url": "https://www.linkedin.com",  "desc": "职业社交网络", "icon": "💼" }
-      ]
-    },
-    {
-      "id": "software",
-      "name": "软件下载",
-      "icon": "📦",
-      "color": "#ff6b81",
-      "links": [
-        { "name": "Macked(Mac)", "url": "https://macked.app/", "desc": "专注Mac破解软件", "icon": "💾" },
-        { "name": "Apkpure(安卓)", "url": "https://apkpure.com",     "desc": "平替谷歌应用商店",   "icon": "📂"  },
-        { "name": "LiteApks(安卓)",    "url": "https://liteapks.com/",   "desc": "(魔法)安卓破解软件下载",  "icon": "⚙️"  },
-        { "name": "小众软件","url": "https://www.appinn.com/",   "desc": "多平台小众软件推荐下载",  "icon": "🔧"  },
-        { "name": "Mac618(Mac)",   "url": "https://www.mac618.com/", "desc": "常用Mac破解软件",  "icon": "🧰"  }
-      ]
-    },
-    {
       "id": "network",
       "name": "网络工具",
       "icon": "🌐",
@@ -240,34 +288,32 @@
         { "name": "IPPURE",   "url": "https://ippure.com/",   "desc": "ip 全面检测", "icon": "🏓" },
         { "name": "我的IP地址", "url": "https://ip.xxir.com/", "desc": "查询本机ip地址", "icon": "⚡" },
         { "name": "IPLark", "url": "https://iplark.com/", "desc": "快速ip检测", "icon": "☁️" },
-        { "name": "Ping0", "url": "https://www.ping0.cc/", "desc": "知名ping工具", "icon": "🌍" }
+        { "name": "Ping0", "url": "https://www.ping0.cc/", "desc": "知名ping工具", "icon": "🌍" },
+        { "name": "中科大测网速", "url": "https://test.ustc.edu.cn/", "desc": "国内网速快速测试", "icon": "🚀" },
+        { "name": "Fast测速", "url": "https://fast.com/zh/cn/", "desc": "国外网速快速测试", "icon": "⚡" }
       ]
     },    
-    {
-      "id": "entertainment",
-      "name": "影视资源",
-      "icon": "🎥",
-      "color": "#ffcc00",
-      "password": "jmnav.top",
-      "links": [
-        { "name": "注视影视(在线)",   "url": "https://gaze.run/",  "desc": "知名在线影视平台", "icon": "📺" },
-        { "name": "搜片(在线/下载)",   "url": "https://soupian.plus/",  "desc": "在线影视搜索与下载",   "icon": "▶️" },
-        { "name": "剧馍馍(在线)",  "url": "https://www.jumomo.cc/", "desc": "在线影视播放",  "icon": "🎮" },
-        { "name": "达达趣(在线)",      "url": "https://www.dadaqu.cc/",     "desc": "在线蓝光播放平台",     "icon": "🎬" },
-        { "name": "迅雷电影天堂(下载)",      "url": "https://xunlei8.cc/", "desc": "BT种子下载平台",     "icon": "🧲" },
-        { "name": "爱壹帆(国外在线)",      "url": "https://www.yfsp.tv/",     "desc": "(魔法)国外在线影视平台",     "icon": "🐜" }
-      ]
-    },  
+      
     {
       "id": "productivity",
       "name": "效率工具",
       "icon": "⚡",
       "color": "#5ac8fa",
       "links": [
-        { "name": "Notion",     "url": "https://www.notion.so",  "desc": "全能笔记工具", "icon": "📝", "showModal": true },
+        { "name": "Notion",     "url": "https://www.notion.so",  "desc": "全能笔记工具", "icon": "📝" },
         { "name": "Obsidian",   "url": "https://obsidian.md",    "desc": "本地知识库",   "icon": "💎" },
         { "name": "Excalidraw", "url": "https://excalidraw.com", "desc": "手绘风白板",   "icon": "✍️" },
         { "name": "Linear",     "url": "https://linear.app",     "desc": "项目管理工具", "icon": "🎯" }
+      ]
+    },
+    {
+      "id": "utilities",
+      "name": "实用工具",
+      "icon": "🛠️",
+      "color": "#8e8e93",
+      "links": [
+        { "name": "工具匠", "url": "https://www.toolkk.com/tools/hot", "desc": "包含800多种在线工具", "icon": "📋" },
+        { "name": "Base64 Encoder", "url": "https://base64.guru", "desc": "Base64 编码器", "icon": "🔑" }
       ]
     },
     {
@@ -277,7 +323,7 @@
       "color": "#8e8e93",
       "password": "jmnav.top",
       "links": [
-        { "name": "Coursera",  "url": "https://www.coursera.org",  "desc": "在线课程平台",   "icon": "🎓", "showModal": true },
+        { "name": "站长的资源站",  "url": "https://s.yjimmy.cn",  "desc": "在线课程平台",   "icon": "🎓" },
         { "name": "edX",       "url": "https://www.edx.org",       "desc": "大学课程平台",   "icon": "🏫" },
         { "name": "Khan Academy", "url": "https://www.khanacademy.org", "desc": "免费教育资源",  "icon": "📖" },
         { "name": "Udemy",     "url": "https://www.udemy.com",     "desc": "技能学习平台",   "icon": "🛠️" }
