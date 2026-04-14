@@ -1,4 +1,4 @@
-/* Cloudflare Pages 缓存和安全头配置 */
+/* Cloudflare Pages 缓存和安全头配置 - 几米导航 (JimmyNav) SEO优化版 */
 
 /* HTML - 不缓存，确保用户获得最新版本 */
 /index.html
@@ -6,6 +6,17 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
+
+/* Robots.txt 和 Sitemap - SEO必需，逐日更新 */
+/robots.txt
+  Cache-Control: public, max-age=86400
+  Content-Type: text/plain; charset=utf-8
+  X-Content-Type-Options: nosniff
+
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+  Content-Type: application/xml; charset=utf-8
+  X-Content-Type-Options: nosniff
 
 /* 资源文件 - 长期缓存（12 个月） */
 /assets/*
@@ -25,7 +36,10 @@
 /*.json
   Cache-Control: public, max-age=3600, must-revalidate
 
-/* 安全头 */
+/* 安全头和SEO配置 */
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   Content-Security-Policy: default-src 'self'; img-src 'self' https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com
+  X-UA-Compatible: IE=edge
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  X-Permitted-Cross-Domain-Policies: none
