@@ -1,22 +1,24 @@
-# 几米导航 (jmnav) robots.txt
-# 搜索引擎及爬虫访问规则
+# JMNAV 几米导航 - robots.txt
+# 搜索引擎爬虫访问规则
 
-# 允许所有爬虫访问
+# 默认规则 - 允许所有爬虫访问主要内容
 User-agent: *
 Allow: /
+Allow: /assets/
+Allow: /*.js
+Allow: /*.css
 Disallow: /assets/nav.json
+Crawl-delay: 0
 
-# Google Bot 特殊规则
+# Google Bot 优化规则
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 1
 
-# Bing Bot 特殊规则
+# Bing Bot 优化规则  
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 1
 
-# 禁止不友好的爬虫
+# 禁止低质量爬虫
 User-agent: AhrefsBot
 Disallow: /
 
@@ -26,12 +28,12 @@ Disallow: /
 User-agent: DotBot
 Disallow: /
 
-# Sitemap 位置
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot-Site-Audit
+Disallow: /
+
+# 网站地图位置
 Sitemap: https://jmnav.cn/sitemap.xml
 Sitemap: https://www.jmnav.cn/sitemap.xml
-
-# 网站规则
-User-agent: *
-Allow: *.js
-Allow: *.css
-Crawl-delay: 0
