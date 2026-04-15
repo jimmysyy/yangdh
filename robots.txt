@@ -35,5 +35,5 @@ User-agent: AhrefsBot-Site-Audit
 Disallow: /
 
 # 网站地图位置
-Sitemap: https://jmnav.cn/sitemap.xml
-Sitemap: https://www.jmnav.cn/sitemap.xml
+Sitemap: https://jmnav.top/sitemap.xml
+Sitemap: https://www.jmnav.top/sitemap.xml
