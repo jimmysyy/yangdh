@@ -1,28 +1,52 @@
+# ════════════════════════════════════════════════════════════
 # JMNAV 几米导航 - robots.txt
-# 搜索引擎爬虫访问规则
+# 基于 Google 和 Bing 官方规范优化
+# ════════════════════════════════════════════════════════════
 
-# 默认规则 - 允许所有爬虫访问主要内容
+# ────────────────────────────────────────────────────────────
+# 🌐 默认规则（所有爬虫）
+# ────────────────────────────────────────────────────────────
 User-agent: *
 Allow: /
-Allow: /assets/
-Allow: /*.js
 Allow: /*.css
+Allow: /*.js
 Disallow: /assets/nav.json
-Crawl-delay: 0
+Crawl-delay: 1
+Request-rate: 1/1s
 
-# Google Bot 优化规则
+# ────────────────────────────────────────────────────────────
+# 🔍 Google Bot 优化规则
+# ────────────────────────────────────────────────────────────
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0
 
-# Bing Bot 优化规则  
-User-agent: Bingbot
+# ────────────────────────────────────────────────────────────
+# 🔍 Google Image Bot
+# ────────────────────────────────────────────────────────────
+User-agent: Googlebot-Image
 Allow: /
 
-# 禁止低质量爬虫
+# ────────────────────────────────────────────────────────────
+# 🔍 Bing Bot 优化规则
+# ────────────────────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+# ────────────────────────────────────────────────────────────
+# 🚫 禁止低质量爬虫（节省爬虫配额）
+# ────────────────────────────────────────────────────────────
 User-agent: AhrefsBot
 Disallow: /
 
+User-agent: AhrefsBot-Site-Audit
+Disallow: /
+
 User-agent: SemrushBot
+Disallow: /
+
+User-agent: SemrushBot-SA
 Disallow: /
 
 User-agent: DotBot
@@ -31,9 +55,11 @@ Disallow: /
 User-agent: MJ12bot
 Disallow: /
 
-User-agent: AhrefsBot-Site-Audit
+User-agent: YisouSpider
 Disallow: /
 
-# 网站地图位置
+# ════════════════════════════════════════════════════════════
+# 📍 网站地图位置（关键SEO配置）
+# ════════════════════════════════════════════════════════════
 Sitemap: https://jmnav.top/sitemap.xml
 Sitemap: https://www.jmnav.top/sitemap.xml
