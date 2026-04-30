@@ -43,6 +43,10 @@
       </div>
     </div>
     <div class="navbar-right">
+      <button id="notifBell" class="icon-btn notif-bell" title="网站更新通知" aria-label="网站更新通知">
+        🔔
+        <span id="notifBadge" class="notif-badge" style="display:none"></span>
+      </button>
       <button id="themeToggle" class="icon-btn" title="切换深色 / 浅色模式" aria-label="切换主题">🌙</button>
     </div>
   </header>
@@ -132,8 +136,25 @@
     </div>
   </div>
 
+  <!-- 网站更新通知弹窗 -->
+  <div id="notifOverlay" class="modal-overlay" role="presentation"></div>
+  <div id="notifModal" class="modal" role="dialog" aria-labelledby="notifModalTitle" aria-modal="true">
+    <button id="notifModalClose" class="modal-close" aria-label="关闭弹窗">✕</button>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="notifModalTitle">📢 网站更新通知</h2>
+        <p id="notifModalDesc">以下是本站最近的网站更新和删减情况</p>
+      </div>
+      <div class="modal-body" id="notifModalBody"></div>
+      <div class="modal-footer">
+        <button id="notifModalConfirm" class="btn btn-primary">知道了</button>
+      </div>
+    </div>
+  </div>
+
   <!-- 脚本 -->
   <script src="./main.js" defer></script>
+
 
 
 
@@ -155,6 +176,29 @@
     "wechatId": "yyyyyjimmy",
     "extra": "加入 20000+ 用户的社群，分享导航站点独家资源"
   },
+  "notifications": [
+    {
+      "id": "notif-0",
+      "type": "add",
+      "title": "站点更新",
+      "content": "添加了站长的资源站，包含图书漫画、软件和影视等资源",
+      "date": "2026-05-01"
+    },
+    {
+      "id": "notif-1",
+      "type": "add",
+      "title": "新增网站",
+      "content": "新增了[影视在线：麦田影院、简单TV]",
+      "date": "2026-05-01"
+    },
+    {
+      "id": "notif-2",
+      "type": "remove",
+      "title": "移除网站",
+      "content": "移除了失效的[影视在线：看片狂人]",
+      "date": "2026-04-28"
+    }
+  ],
   "passwordConfig": {
     "title": "需要密码验证",
     "description": "此分类需要密码验证后才能查看。请关注公众号获取密码。",
@@ -167,13 +211,14 @@
       "icon": "🎥",
       "color": "#ffcc00",
       "links": [
+        { "name": "麦田影视(在线)", "url": "https://mtyy4.com", "desc": "在线播放超清电影", "icon": "🎬" },
         { "name": "注视影视(在线)",   "url": "https://gaze.host/",  "desc": "知名在线影视平台", "icon": "📺" },
         { "name": "搜片(在线/下载)",   "url": "https://soupian.plus/",  "desc": "在线影视搜索与下载",   "icon": "▶️" },
         { "name": "剧馍馍(在线)",  "url": "https://www.jumomo.cc/", "desc": "在线影视播放",  "icon": "▶️" },
         { "name": "达达趣(在线)",      "url": "https://www.dadaqu.cc/",     "desc": "在线蓝光播放平台",     "icon": "🎬" },
         { "name": "泥视频(在线)",      "url": "https://www.nivod.vip/",     "desc": "在线影视播放",     "icon": "▶️" },
         { "name": "NO视频(在线)",      "url": "https://www.novipnoad.net/",     "desc": "在线影视播放",     "icon": "▶️" },
-        { "name": "看片狂人(在线)",      "url": "https://www.kuangren.us/",     "desc": "在线影视播放",     "icon": "▶️" },
+        { "name": "简单TV(在线)", "url": "https://jiandantv.cc", "desc": "在线搜索影视播放", "icon": "🎬" },
         { "name": "ppnix(在线)",      "url": "https://www.ppnix.com/",     "desc": "在线影视播放",     "icon": "▶️" },
         { "name": "迅雷电影天堂(下载)",      "url": "https://xunlei8.cc/", "desc": "BT种子下载平台",     "icon": "🧲" },
         { "name": "爱壹帆(国外在线)",      "url": "https://www.yfsp.tv/",     "desc": "(魔法)国外在线影视平台",     "icon": "▶️" },
