@@ -189,7 +189,13 @@ function buildCategories(cats) {
         a.style.animationDelay = `${li * 0.04}s`;
         a.setAttribute("aria-label", `${link.name}— ${link.desc}`);
         a.innerHTML = ` <span class="card-emoji">${link.icon}</span> <div class="card-name">${esc(link.name)}</div> <div class="card-desc">${esc(link.desc)}</div> <div class="card-arrow">前往访问 →</div>`;
-        if (link.showModal) {
+        if (link.url === "#history") {
+          a.href = "#";
+          a.addEventListener("click", (e) => {
+            e.preventDefault();
+            openHistoryModal();
+          });
+        } else if (link.showModal) {
           a.href = "#";
           a.addEventListener("click", (e) => {
             e.preventDefault();
@@ -377,6 +383,71 @@ function closeNotifModal() {
   $("notifModal").classList.remove("show");
   document.body.style.overflow = "";
 }
+let historyLoaded = false;
+let historyTimelineBuilt = false;
+async function openHistoryModal() {
+  if (S.sidebarOpen) closeSidebar();
+  $("historyOverlay").classList.add("show");
+  $("historyModal").classList.add("show");
+  document.body.style.overflow = "hidden";
+  if (!historyLoaded) {
+    const body = $("historyModalBody");
+    try {
+      const res = await fetch("./history-content.html");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const html = await res.text();
+      body.innerHTML = html;
+      historyLoaded = true;
+      buildHistoryTimeline();
+    } catch (err) {
+      body.innerHTML = `<div class="history-loading"><p>加载失败，请稍后重试</p></div>`;
+      console.error("[History] 加载失败:", err);
+    }
+  } else if (!historyTimelineBuilt) {
+    buildHistoryTimeline();
+  }
+}
+function buildHistoryTimeline() {
+  const timelineData = (S.data && S.data.history) || [];
+  if (!timelineData.length) return;
+  let addCount = 0, removeCount = 0, catCount = 0;
+  timelineData.forEach(function(e) {
+    if (e.type === "category") catCount++;
+    e.changes.forEach(function(c) {
+      if (c.type === "add") addCount += c.items.length;
+      else if (c.type === "remove") removeCount += c.items.length;
+    });
+  });
+  var sa = document.getElementById("statAdd");
+  var sr = document.getElementById("statRemove");
+  var sc = document.getElementById("statCat");
+  if (sa) sa.textContent = addCount;
+  if (sr) sr.textContent = removeCount;
+  if (sc) sc.textContent = catCount;
+  var timelineEl = document.querySelector(".timeline");
+  if (!timelineEl) return;
+  timelineData.forEach(function(event, i) {
+    var item = document.createElement("div");
+    item.className = "tl-item";
+    item.style.animationDelay = (i * 0.06) + "s";
+    var typeLabel = event.type === "category" ? "分类调整" : "网址更新";
+    var typeIcon = event.type === "category" ? "📂" : "🔄";
+    var changesHtml = event.changes.map(function(c) {
+      var cls = c.type === "add" ? "chg-add" : c.type === "remove" ? "chg-remove" : c.type === "move" ? "chg-move" : "chg-tag";
+      var text = c.type === "add" ? "新增" : c.type === "remove" ? "移除" : c.type === "move" ? "移动" : "调整";
+      var icon = c.type === "add" ? "➕" : c.type === "remove" ? "➖" : c.type === "move" ? "📦" : "🏷️";
+      return "<div class=\"chg-group\"><span class=\"chg-tag " + cls + "\">" + icon + " " + text + "</span><span class=\"chg-cat\">" + esc(c.cat) + "</span><span class=\"chg-items\">" + esc(c.items.join("、")) + "</span></div>";
+    }).join("");
+    item.innerHTML = "<div class=\"tl-dot" + (event.type === "category" ? " tl-dot-cat" : "") + "\"></div><div class=\"tl-card\"><div class=\"tl-card-header\"><span class=\"tl-type-badge\">" + typeIcon + " " + typeLabel + "</span><span class=\"tl-date\">" + esc(event.date) + "</span></div><h3 class=\"tl-title\">" + esc(event.title) + "</h3><p class=\"tl-detail\">" + esc(event.detail) + "</p><div class=\"tl-changes\">" + changesHtml + "</div></div>";
+    timelineEl.appendChild(item);
+  });
+  historyTimelineBuilt = true;
+}
+function closeHistoryModal() {
+  $("historyOverlay").classList.remove("show");
+  $("historyModal").classList.remove("show");
+  document.body.style.overflow = "";
+}
 function checkNotifications() {
   const notifs = S.data.notifications || [];
   if (!notifs.length) return;
@@ -536,6 +607,13 @@ function bindEvents() {
     const notifModal = $("notifModal");
     if (e.key === "Escape" && notifModal && notifModal.classList.contains("show"))
       closeNotifModal();
+  });
+  safeOn($("historyOverlay"), "click", closeHistoryModal);
+  safeOn($("historyModalClose"), "click", closeHistoryModal);
+  document.addEventListener("keydown", (e) => {
+    const histModal = $("historyModal");
+    if (e.key === "Escape" && histModal && histModal.classList.contains("show"))
+      closeHistoryModal();
   });
   safeOn($("passwordModalClose"), "click", closePasswordModal);
   safeOn($("passwordModalOverlay"), "click", closePasswordModal);

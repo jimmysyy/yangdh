@@ -152,8 +152,23 @@
     </div>
   </div>
 
+  <!-- 历史记录弹窗 -->
+  <div id="historyOverlay" class="modal-overlay" role="presentation"></div>
+  <div id="historyModal" class="modal" role="dialog" aria-labelledby="historyModalTitle" aria-modal="true">
+    <button id="historyModalClose" class="modal-close" aria-label="关闭弹窗">✕</button>
+    <div class="modal-content">
+      <div class="modal-body" id="historyModalBody">
+        <div class="history-loading">
+          <div class="spinner"></div>
+          <p>加载历史记录中...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 脚本 -->
   <script src="./main.js?v=20260501" defer data-cfasync="false"></script>
+
 
 
 
@@ -197,6 +212,167 @@
       "title": "移除网站",
       "content": "移除了失效的[影视在线：看片狂人]",
       "date": "2026-04-28"
+    }
+  ],
+  "history": [
+    {
+      "date": "2026-05-08",
+      "title": "新增动漫动画分类",
+      "type": "category",
+      "detail": "应朋友建议，把在线动漫从影视在线拆分为独立分类「动漫动画」，新增了青空次元、次元城、NT动漫 3 个在线动漫网站，原有的 Nyaa、ACG.RIP 等动漫资源站也移入此分类。",
+      "changes": [
+        { "type": "add", "cat": "动漫动画", "items": ["青空次元", "次元城", "NT动漫", "Age动漫(从影视在线移入)", "Anime1动漫(从影视在线移入)"] },
+        { "type": "move", "cat": "影视在线 → 动漫动画", "items": ["Age动漫", "Anime1动漫"] },
+        { "type": "move", "cat": "资源下载 → 动漫动画", "items": ["Nyaa", "ACG.RIP", "末日动漫资源库", "动漫花园", "动漫花园资源镜像", "AnimeBytes", "VCB-Studio", "Nekobt"] },
+        { "type": "add", "cat": "资源下载", "items": ["磁力狗", "磁力猫(从影视在线移入)"] }
+      ]
+    },
+    {
+      "date": "2026-05-01",
+      "title": "影视在线更新",
+      "type": "update",
+      "detail": "影视在线分类新增麦田影视、简单TV，移除了失效的看片狂人。",
+      "changes": [
+        { "type": "add", "cat": "影视在线", "items": ["麦田影视(在线)", "简单TV(在线)"] },
+        { "type": "remove", "cat": "影视在线", "items": ["看片狂人(失效)"] }
+      ]
+    },
+    {
+      "date": "2026-04-25",
+      "title": "站长资源站上线",
+      "type": "update",
+      "detail": "将分散的百度网盘链接整合为站长的独立站点，图书漫画、软件下载、资源下载三个分类都增加了站长的专属站链接。",
+      "changes": [
+        { "type": "add", "cat": "图书漫画", "items": ["站长的图书漫画站(替换日漫珍藏)"] },
+        { "type": "add", "cat": "软件下载", "items": ["站长的软件站(替换百度网盘合集)"] },
+        { "type": "add", "cat": "资源下载", "items": ["站长的资源站"] }
+      ]
+    },
+    {
+      "date": "2026-04-22",
+      "title": "影视及软件更新",
+      "type": "update",
+      "detail": "影视在线新增 NO视频、ppnix 等在线播放站，软件下载新增动漫漫画app合集。",
+      "changes": [
+        { "type": "add", "cat": "影视在线", "items": ["NO视频(在线)", "ppnix(在线)"] },
+        { "type": "add", "cat": "软件下载", "items": ["动漫漫画app合集"] }
+      ]
+    },
+    {
+      "date": "2026-04-19",
+      "title": "动漫资源站补充",
+      "type": "update",
+      "detail": "资源下载分类新增多个动漫相关站点，并为需要梯子的站点标注🪜。",
+      "changes": [
+        { "type": "add", "cat": "资源下载", "items": ["动漫花园资源镜像", "AnimeBytes"] },
+        { "type": "tag", "cat": "多分类", "items": ["统一标记🪜魔法标签", "统一替换「魔法」为「🪜」"] }
+      ]
+    },
+    {
+      "date": "2026-04-18",
+      "title": "新增动漫资源站",
+      "type": "update",
+      "detail": "新增动漫花园和站长最爱的 VCB-Studio 压制组。",
+      "changes": [
+        { "type": "add", "cat": "资源下载", "items": ["动漫花园", "VCB-Studio"] }
+      ]
+    },
+    {
+      "date": "2026-04-13",
+      "title": "多分类网址扩充",
+      "type": "update",
+      "detail": "影视在线、图书漫画、资源下载三个分类同时扩充，新增了高清族、磁力狗、磁力猫、X漫画、Mangabz、种子吧等。",
+      "changes": [
+        { "type": "add", "cat": "影视在线", "items": ["高清族(下载)", "磁力狗(下载)", "磁力猫(下载)"] },
+        { "type": "add", "cat": "图书漫画", "items": ["X漫画", "Mangabz"] },
+        { "type": "add", "cat": "资源下载", "items": ["种子吧"] }
+      ]
+    },
+    {
+      "date": "2026-04-07",
+      "title": "影视和学习资源更新",
+      "type": "update",
+      "detail": "影视在线新增泥视频、看片狂人；资源下载新增 ACG.RIP、末日动漫资源库；学习进步新增学习所有、在线博物馆。",
+      "changes": [
+        { "type": "add", "cat": "影视在线", "items": ["泥视频(在线)", "看片狂人(在线)"] },
+        { "type": "add", "cat": "资源下载", "items": ["ACG.RIP", "末日动漫资源库"] },
+        { "type": "add", "cat": "学习进步", "items": ["学习所有", "在线博物馆"] }
+      ]
+    },
+    {
+      "date": "2026-03-24",
+      "title": "精简分类",
+      "type": "category",
+      "detail": "移除了使用频率较低的设计资源和效率工具两个分类，将资源分享改为暂未开放，专注核心导航功能。",
+      "changes": [
+        { "type": "remove", "cat": "设计资源", "items": ["Figma", "Dribbble", "Unsplash", "Iconify(整分类移除)"] },
+        { "type": "remove", "cat": "效率工具", "items": ["Notion", "Obsidian", "Excalidraw", "Linear(整分类移除)"] }
+      ]
+    },
+    {
+      "date": "2026-03-23",
+      "title": "影视在线大幅扩充",
+      "type": "update",
+      "detail": "影视资源改名为影视在线，新增多个动漫和电影下载站点，实用工具也新增了三个在线工具站。",
+      "changes": [
+        { "type": "add", "cat": "影视在线", "items": ["Age动漫(在线)", "Anime1动漫(在线)", "飘花电影(下载)", "BT电影天堂(下载)"] },
+        { "type": "add", "cat": "图书漫画", "items": ["爱下电子书"] },
+        { "type": "add", "cat": "实用工具", "items": ["在线工具", "小白工具箱", "QR Code Generator"] }
+      ]
+    },
+    {
+      "date": "2026-03-22",
+      "title": "站点大规模重组",
+      "type": "category",
+      "detail": "新增图书漫画、资源下载、游戏娱乐、学习进步四个分类，移除搜索引擎和社交媒体分类。站点从最初的工具型导航转向资源型导航。",
+      "changes": [
+        { "type": "add", "cat": "资源下载", "items": ["1337x", "MagnetBt", "Nyaa", "Nekobt", "Limetorrents", "ExT", "BTDigg", "BT4G(新分类，8个站)"] },
+        { "type": "add", "cat": "游戏娱乐", "items": ["Steam", "小霸王", "Gamer520", "风灵月影", "老男人游戏网", "Nexus Mods", "ModDB", "3DM游戏模组(新分类)"] },
+        { "type": "add", "cat": "学习进步", "items": ["菜鸟教程", "edX", "成年人英语速成(新分类)"] },
+        { "type": "remove", "cat": "搜索引擎", "items": ["Google", "Bing", "百度", "DuckDuckGo(整分类移除)"] },
+        { "type": "remove", "cat": "社交媒体", "items": ["X(Twitter)", "YouTube", "Reddit", "LinkedIn(整分类移除)"] }
+      ]
+    },
+    {
+      "date": "2026-03-20",
+      "title": "图书漫画与实用工具上线",
+      "type": "category",
+      "detail": "新增图书漫画和实用工具两个分类，AI工具新增 HeckAI 和 FreeGPT，并对分类顺序进行了大规模调整。",
+      "changes": [
+        { "type": "add", "cat": "图书漫画", "items": ["豆瓣", "安娜的档案(1)", "安娜的档案(2)", "Zlibrary", "Libgen", "书栈网(新分类)"] },
+        { "type": "add", "cat": "实用工具", "items": ["工具匠", "Base64 Encoder(新分类)"] },
+        { "type": "add", "cat": "AI 工具", "items": ["HeckAI", "FreeGPT"] },
+        { "type": "tag", "cat": "多分类", "items": ["添加「魔法」标签到需梯子站点"] }
+      ]
+    },
+    {
+      "date": "2026-03-19",
+      "title": "新增软件下载分类",
+      "type": "category",
+      "detail": "新增软件下载分类，提供 Mac 和安卓破解软件下载站点。",
+      "changes": [
+        { "type": "add", "cat": "软件下载", "items": ["Macked(Mac)", "Apkpure(安卓)", "LiteApks(安卓)", "小众软件", "Mac618(Mac)(新分类)"] }
+      ]
+    },
+    {
+      "date": "2026-03-18",
+      "title": "影视资源与网络工具上线",
+      "type": "category",
+      "detail": "新增网络工具和影视资源两个分类，影视资源替换了之前的影视影音分类（Netflix 等），更侧重国内可用站点。",
+      "changes": [
+        { "type": "add", "cat": "网络工具", "items": ["ITDOG", "IPPURE", "我的IP地址", "IPLark", "Ping0(新分类)"] },
+        { "type": "add", "cat": "影视资源", "items": ["注视影视", "搜片", "剧馍馍", "达达趣", "迅雷电影天堂", "爱壹帆(新分类)"] },
+        { "type": "remove", "cat": "影视影音", "items": ["Netflix", "YouTube", "Bilibili", "IMDb(整分类替换)"] }
+      ]
+    },
+    {
+      "date": "2026-03-16",
+      "title": "🚀 网站正式上线",
+      "type": "category",
+      "detail": "几米导航(JimmyNav)正式上线，首批包含搜索引擎、AI 工具、开发工具、设计资源、社交媒体、效率工具、影视影音、资源分享 8 个分类。",
+      "changes": [
+        { "type": "add", "cat": "多分类", "items": ["搜索引擎(4站)", "AI工具(5站)", "开发工具(5站)", "设计资源(4站)", "社交媒体(4站)", "效率工具(4站)", "影视影音(4站)", "资源分享(4站) — 共8个分类34个网站"] }
+      ]
     }
   ],
   "passwordConfig": {
@@ -394,7 +570,8 @@
       "color": "#8e8e93",
       "password": "jmnav.top",
       "links": [
-        { "name": "站长的资源站",  "url": "https://s.yjimmy.cn",  "desc": "站长分享的资源",   "icon": "🎓" }
+        { "name": "站长的资源站",  "url": "https://s.yjimmy.cn",  "desc": "站长分享的资源",   "icon": "🎓" },
+        { "name": "网址变更历史", "url": "#history", "desc": "查看本站网址历史增减记录", "icon": "📋" }
       ]
     }
 
