@@ -408,7 +408,7 @@ async function openHistoryModal() {
   }
 }
 function buildHistoryTimeline() {
-  const timelineData = (S.data && S.data.history) || [];
+  const timelineData = window.HISTORY_DATA || [];
   if (!timelineData.length) return;
   let addCount = 0, removeCount = 0, catCount = 0;
   timelineData.forEach(function(e) {
