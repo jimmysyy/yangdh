@@ -111,7 +111,7 @@
       </div>
       <div class="modal-footer">
         <button id="passwordSubmit" class="btn btn-primary">验证密码</button>
-        <button id="passwordShowWechat" class="btn btn-secondary">关注公众号获取</button>
+        <button id="passwordShowWechat" class="btn btn-secondary">加入QQ群等待开放</button>
       </div>
     </div>
   </div>
@@ -173,8 +173,6 @@
 
 
 
-
-
   <!-- ══ 内嵌数据（减少网络请求） ══ -->
   <script>
     window.NAV_DATA = {
@@ -185,26 +183,26 @@
     "footer": "由 <a href='#' target='_blank' rel='noopener'><strong>YJimmy</strong></a> 设计和维护 | 几米导航 (JimmyNav) · <a href='https://weibo.com/u/8013751560' target='_blank' rel='noopener'>微博</a> · <a href='https://wj.qq.com/s2/26264809/dc8f/' target='_blank' rel='noopener'>💬反馈</a>"
   },
   "wechatConfig": {
-    "title": "订阅公众号",
-    "description": "关注我们的微信公众号，获取最新资讯和独家内容",
-    "qrCode": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23fff' width='100' height='100'/%3E%3Crect fill='%23000' x='10' y='10' width='30' height='30'/%3E%3Crect fill='%23000' x='60' y='10' width='30' height='30'/%3E%3Crect fill='%23000' x='10' y='60' width='30' height='30'/%3E%3Crect fill='%23000' x='45' y='45' width='10' height='10'/%3E%3C/svg%3E",
+    "title": "加入QQ群",
+    "description": "加入qq资源群，获取最新资源更新和站点变更通知",
+    "qrCode": "https://i.111666.best/image/MiFIH5UpMrHQj5LKWVBjVK.jpg",
     "wechatId": "yyyyyjimmy",
-    "extra": "加入 20000+ 用户的社群，分享导航站点独家资源"
+    "extra": "期待你的加入"
   },
   "notifications": [
     {
       "id": "notif-0",
       "type": "add",
       "title": "站点更新",
-      "content": "更新了一些漫画和工具站，资源站里面也更了一些压箱底的小说合集资源。有人反馈说部分站点广告太多，这里我推荐pc用edge，手机也用edge，下个免广告插件一劳永逸",
-      "date": "2026-05-11"
+      "content": "小小更新了一些网盘资源站",
+      "date": "2026-05-18"
     },
     {
       "id": "notif-1",
       "type": "add",
       "title": "新增网站",
-      "content": "新增了[图书漫画：拷贝漫画、W漫画]和[实用工具：iLIMG图片处理、易转换]两个分类，共4个站点。",
-      "date": "2026-05-11"
+      "content": "新增了[影视在线：两个BT、100T影视资源]、[动漫动画: 4k超清动漫]、[实用工具：16图床]三个分类，共4个站点。",
+      "date": "2026-05-18"
     },
     {
       "id": "notif-2",
@@ -237,6 +235,18 @@
           "url": "https://gaze.host/",
           "desc": "知名在线影视平台",
           "icon": "📺"
+        },
+        {
+          "name": "100T影视资源(夸克)",
+          "url": "https://docs.qq.com/sheet/DUVJZV0tubGdYbFpr?tab=BB08J2",
+          "desc": "夸克网盘100T影视资源持续更新",
+          "icon": "🎬"
+        },
+        {
+          "name": "两个BT(在线)",
+          "url": "https://www.bttwo.me/",
+          "desc": "在线影视播放",
+          "icon": "🎬"
         },
         {
           "name": "搜片(在线/下载)",
@@ -409,6 +419,12 @@
           "url": "https://www.agedm.io/",
           "desc": "动漫在线观看",
           "icon": "⚓"
+        },
+        {
+          "name": "4k超清动漫(百度云)",
+          "url": "https://www.kdocs.cn/l/csXTnqgpJox6",
+          "desc": "百度云盘4k超清动漫资源",
+          "icon": "🌸"
         },
         {
           "name": "青空次元(在线)",
@@ -796,6 +812,12 @@
           "icon": "🚀"
         },
         {
+          "name": "Speedtest",
+          "url": "https://www.speedtest.cn/",
+          "desc": "国内宽带深度测速",
+          "icon": "⚡"
+        },
+        {
           "name": "Fast测速",
           "url": "https://fast.com/zh/cn/",
           "desc": "国外网速快速测试",
@@ -825,6 +847,12 @@
           "name": "iLIMG图片处理",
           "url": "https://www.iloveimg.com/",
           "desc": "在线图片快速处理，包含压缩、裁剪和编辑等",
+          "icon": "🖼️"
+        },
+        {
+          "name": "16图床",
+          "url": "https://111666.best/",
+          "desc": "永久免费，无需登录的图床",
           "icon": "🖼️"
         },
         {
@@ -877,6 +905,36 @@
   ]
 };
     window.HISTORY_DATA = [
+  {
+    "date": "2026-05-18",
+    "title": "站点更新",
+    "type": "update",
+    "detail": "小小更新了一些网盘资源站",
+    "changes": [
+      {
+        "type": "add",
+        "cat": "影视在线",
+        "items": [
+          "两个BT",
+          "100T影视资源"
+        ]
+      },
+      {
+        "type": "add",
+        "cat": "动漫动画",
+        "items": [
+          "4k超清动漫"
+        ]
+      },
+      {
+        "type": "add",
+        "cat": "实用工具",
+        "items": [
+          "16图床"
+        ]
+      }
+    ]
+  },
   {
     "date": "2026-05-11",
     "title": "新增站点,移除开发工具分类",
