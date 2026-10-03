@@ -1,45 +1,70 @@
-/* Cloudflare Pages 缓存和安全头配置 - 几米导航 (JimmyNav) SEO优化版 */
+# ════════════════════════════════════════════════════════════
+# Cloudflare Pages 头配置 —— JMNAV 几米导航（速度优先版）
+#
+# ⚠️ 注释语法必须是 #（Cloudflare 文档规定的注释符）。
+#    不要用 /* ... */：/* 是合法的通配路径，会被当成规则解析。
+#
+# 修改后务必实测：
+#   curl -I https://jmnav.top/
+#   curl -I https://jmnav.top/style.css
+#   curl -I https://jmnav.top/main.js
+# ════════════════════════════════════════════════════════════
 
-/* HTML - 不缓存，确保用户获得最新版本 */
-/index.html
-  Cache-Control: public, max-age=0, must-revalidate
+# ── HTML 入口 ───────────────────────────────────────────────
+# 必须给 / 和 /index.html 各写一条：Cloudflare 的路径匹配看的是请求路径，
+# 用户访问的是 /，只写 /index.html 不会覆盖根路径。
+# 速度策略：60 秒内直接命中缓存；60 秒后仍然秒开（后台静默校验），
+# 最长 1 天内可能展示上一版内容，下一次访问即为最新。
+# 想改成"每次都必须校验最新"，把下面两行换成：
+#   Cache-Control: public, max-age=0, must-revalidate
+/
+  Cache-Control: public, max-age=60, stale-while-revalidate=86400
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
 
-/* Robots.txt 和 Sitemap - SEO必需，逐日更新 */
-/robots.txt
-  Cache-Control: public, max-age=86400
-  Content-Type: text/plain; charset=utf-8
+/index.html
+  Cache-Control: public, max-age=60, stale-while-revalidate=86400
   X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
 
-/sitemap.xml
-  Cache-Control: public, max-age=86400
-  Content-Type: application/xml; charset=utf-8
-  X-Content-Type-Options: nosniff
-
-/* 资源文件 - 长期缓存（12 个月） */
-/assets/*
+# ── 样式与脚本 ──────────────────────────────────────────────
+# 一年 immutable。缓存戳由 tools/build.js 自动写成 ?v=<内容哈希>，
+# 文件内容一变哈希就变，所以永远不需要手工改版本号，也不需要清缓存。
+/style.css
   Cache-Control: public, max-age=31536000, immutable
   X-Content-Type-Options: nosniff
 
-/* CSS 和 JS - 1 小时缓存（配合版本号查询参数更新） */
-/*.css
-  Cache-Control: public, max-age=3600, must-revalidate
+/main.js
+  Cache-Control: public, max-age=31536000, immutable
   X-Content-Type-Options: nosniff
 
-/*.js
-  Cache-Control: public, max-age=3600, must-revalidate
+# ── 图标与分享图 ────────────────────────────────────────────
+# 文件名不带哈希，所以给 7 天而不是 immutable
+/static/*
+  Cache-Control: public, max-age=604800
   X-Content-Type-Options: nosniff
 
-/* JSON 数据 - 1 小时缓存 */
-/*.json
-  Cache-Control: public, max-age=3600, must-revalidate
+# ── SEO 文件 ────────────────────────────────────────────────
+/robots.txt
+  Cache-Control: public, max-age=86400
 
-/* 安全头和SEO配置 */
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+
+/manifest.webmanifest
+  Cache-Control: public, max-age=86400
+
+# ── 兜底：安全头 ────────────────────────────────────────────
+# CSP 说明：
+#   script-src 'unsafe-inline' 是因为导航数据内嵌在 index.html 里（换来少 1 个请求），
+#     这是内嵌方案的直接代价，无法用 nonce/hash 绕过。
+#   img-src 需要 data:（内联 SVG favicon）和 https:（弹窗里的第三方二维码，暂不自托管）。
+#   connect-src 里的 cloudflareinsights.com 是 Web Analytics 上报地址；
+#     若不使用 Cloudflare Web Analytics，可以删掉这一项和 script-src 里的 insights 域名。
 /*
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; img-src 'self' https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com
-  X-UA-Compatible: IE=edge
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'none'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com
   Permissions-Policy: geolocation=(), microphone=(), camera=()
   X-Permitted-Cross-Domain-Policies: none

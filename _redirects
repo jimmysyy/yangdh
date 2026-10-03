@@ -1,5 +1,0 @@
-/* Cloudflare Pages 重定向规则 */
-
-/* SPA 路由 - 所有非文件请求都返回 index.html */
-/* 如果你的网站在根地址，启用这行 */
-/* /* /index.html 200 */

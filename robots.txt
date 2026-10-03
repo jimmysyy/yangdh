@@ -1,55 +1,30 @@
-# ════════════════════════════════════════════════════════════
-# JMNAV 几米导航 - robots.txt
-# 基于 Google 和 Bing 官方规范优化
-# ════════════════════════════════════════════════════════════
+# JMNAV 几米导航 — robots.txt
+#
+# 静态站实际只对外暴露 5 个路径：
+#   /               主页
+#   /style.css      样式（?v= 内容哈希）
+#   /main.js        脚本（?v= 内容哈希）
+#   /robots.txt
+#   /sitemap.xml
+# 其余规则是防御性的：万一误把仓库根目录部署上线，也能拦住源码与文档被索引。
 
-# ────────────────────────────────────────────────────────────
-# 🌐 默认规则（所有爬虫）
-# ────────────────────────────────────────────────────────────
 User-agent: *
 Allow: /
-Disallow: /assets/nav.json
-Crawl-delay: 1
+Disallow: /assets/
+Disallow: /tools/
+Disallow: /docs/
+Disallow: /dist/
+Disallow: /*.md
+Disallow: /*.bak
+Disallow: /package.json
+Disallow: /_headers
+Disallow: /perf-test.html
 
-# ────────────────────────────────────────────────────────────
-# 🔍 Google Bot 优化规则
-# ────────────────────────────────────────────────────────────
-User-agent: Googlebot
-Allow: /
-
-# ────────────────────────────────────────────────────────────
-# 🔍 Google Image Bot
-# ────────────────────────────────────────────────────────────
-User-agent: Googlebot-Image
-Allow: /
-
-# ────────────────────────────────────────────────────────────
-# 🔍 Bing Bot 优化规则
-# ────────────────────────────────────────────────────────────
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 0
-
-# ────────────────────────────────────────────────────────────
-# 🔍 百度爬虫
-# ────────────────────────────────────────────────────────────
-User-agent: Baiduspider
-Allow: /
-Crawl-delay: 1
-
-# ────────────────────────────────────────────────────────────
-# 🚫 禁止低质量爬虫（节省爬虫配额）
-# ────────────────────────────────────────────────────────────
+# ── 采集站爬虫（不带来流量，只消耗配额） ──
 User-agent: AhrefsBot
 Disallow: /
 
-User-agent: AhrefsBot-Site-Audit
-Disallow: /
-
 User-agent: SemrushBot
-Disallow: /
-
-User-agent: SemrushBot-SA
 Disallow: /
 
 User-agent: DotBot
@@ -61,16 +36,14 @@ Disallow: /
 User-agent: YisouSpider
 Disallow: /
 
-# ────────────────────────────────────────────────────────────
-# 🤖 禁止 AI 训练爬虫
-# ────────────────────────────────────────────────────────────
+# ── AI 训练爬虫 ──
 User-agent: GPTBot
 Disallow: /
 
-User-agent: Claude-Web
+User-agent: CCBot
 Disallow: /
 
-User-agent: CCBot
+User-agent: ClaudeBot
 Disallow: /
 
 User-agent: anthropic-ai
@@ -79,7 +52,10 @@ Disallow: /
 User-agent: PerplexityBot
 Disallow: /
 
-# ════════════════════════════════════════════════════════════
-# 📍 网站地图位置（关键SEO配置）
-# ════════════════════════════════════════════════════════════
+# 说明：
+# 已删除 Googlebot / Bingbot / Baiduspider 的独立分组——它们原本只写 Allow: /，
+# 而独立分组会让 User-agent: * 里的 Disallow 对它们失效（robots.txt 里
+# 爬虫只遵守自己那一组）。删掉后上面的防御性 Disallow 才真正对 Google 生效。
+# 已删除 Crawl-delay：Google 与 Bing 都已忽略该指令。
+
 Sitemap: https://jmnav.top/sitemap.xml

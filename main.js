@@ -1,16 +1,9 @@
 "use strict";
+
+// PERF.dataLoaded 是 performance.now() 读数，其 0 点即文档 timeOrigin，
+// 所以它本身就是"自导航开始"的毫秒数（旧代码拿它减 epoch 毫秒，页脚显示负数）。
 const PERF = {
-  navigationStart: (() => {
-    if (performance.timing?.navigationStart) {
-      return performance.timing.navigationStart;
-    }
-    const nav = performance.getEntriesByType("navigation")[0];
-    return nav?.fetchStart || Date.now();
-  })(),
-  start: performance.now(),
-  domContentLoaded: null,
   dataLoaded: null,
-  completed: null,
 };
 const S = {
   data: null,
@@ -37,32 +30,32 @@ function hi(text, q) {
     "<mark>$1</mark>",
   );
 }
-async function loadData() {
+function loadData() {
+  // 数据已由 tools/update-data.js 内嵌，运行时不再发请求
+  if (!window.NAV_DATA) {
+    console.error("[Navigator] 未找到 window.NAV_DATA");
+    showError();
+    return;
+  }
+  S.data = window.NAV_DATA;
+  PERF.dataLoaded = performance.now();
   try {
-    if (window.NAV_DATA) {
-      S.data = window.NAV_DATA;
-      PERF.dataLoaded = performance.now();
-    } else {
-      const res = await fetch("./assets/nav.json");
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      S.data = await res.json();
-      PERF.dataLoaded = performance.now();
-    }
     initSite();
     showLoadTime();
   } catch (err) {
-    console.error("[Navigator] 数据加载失败:", err);
+    console.error("[Navigator] 初始化失败:", err);
     showError();
   }
 }
 function showError() {
-  $$(".skeleton-grid").forEach((el) => el.remove());
-  $("catContainer").innerHTML =
-    ` <div class="search-empty"> <div class="search-empty-icon">⚠️</div> <h3>数据加载失败</h3> <p>请确保在 HTTP 服务器下运行，且 <code>assets/nav.json</code> 文件存在。</p> </div>`;
+  const cont = $("catContainer");
+  if (!cont) return;
+  cont.innerHTML =
+    ` <div class="search-empty"> <div class="search-empty-icon">⚠️</div> <h3>数据加载失败</h3> <p>导航数据需在构建时内嵌，请执行 <code>node tools/update-data.js</code>。</p> </div>`;
 }
 function initSite() {
   const { site, categories } = S.data;
-  document.title = site.title;
+  // 不覆盖 <title>：静态标题关键词更全，改由 index.html 统一维护。
   $("heroTitle").innerHTML = `欢迎来到 <span>${esc(site.title)}</span>`;
   $("heroSub").textContent = site.subtitle;
   $("logoIcon").textContent = site.logo;
@@ -75,7 +68,7 @@ function initSite() {
   }
   buildSidebar(categories);
   buildCategories(categories);
-  selectCat("all");
+  applyCatFromUrl(categories);
   checkNotifications();
 }
 function buildSidebar(cats) {
@@ -109,7 +102,8 @@ function buildSidebar(cats) {
     nav.appendChild(li);
   });
 }
-function selectCat(id) {
+function selectCat(id, opts) {
+  const instant = !!(opts && opts.instant);
   if (id !== "all") {
     const cat = S.data.categories.find((c) => c.id === id);
     if (cat && cat.password) {
@@ -130,12 +124,39 @@ function selectCat(id) {
   $$(".cat-section").forEach((el) => {
     el.style.display = id === "all" || el.dataset.id === id ? "" : "none";
   });
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (!instant) syncCatToUrl(id);
+  window.scrollTo({ top: 0, behavior: instant || prefersReducedMotion() ? "auto" : "smooth" });
+}
+
+function prefersReducedMotion() {
+  return matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+/** 只增删 cat 参数，其它查询参数（如 utm_source）原样保留 */
+function syncCatToUrl(id) {
+  const params = new URLSearchParams(location.search);
+  if (id === "all") params.delete("cat");
+  else params.set("cat", id);
+  const qs = params.toString();
+  try {
+    history.replaceState(null, "", location.pathname + (qs ? "?" + qs : ""));
+  } catch (e) {
+    /* file:// 下 replaceState 可能抛错 */
+  }
+}
+
+/** 读取 ?cat=<分类id>；无效值只清掉该参数，不动 URL 上的其它内容 */
+function applyCatFromUrl(cats) {
+  const wanted = new URLSearchParams(location.search).get("cat");
+  const valid = wanted && cats.some((c) => c.id === wanted);
+  if (wanted && !valid) syncCatToUrl("all");
+  selectCat(valid ? wanted : "all", { instant: true });
 }
 function showLoadTime() {
   const loadEl = $("loadTime");
-  if (!loadEl) return;
-  const totalTime = Math.round(PERF.dataLoaded - PERF.navigationStart);
+  if (!loadEl || PERF.dataLoaded == null) return;
+  // dataLoaded 已是"自导航开始"的毫秒数
+  const totalTime = Math.max(0, Math.round(PERF.dataLoaded));
   const minutes = Math.floor(totalTime / 60000);
   const seconds = Math.floor((totalTime % 60000) / 1000);
   const ms = totalTime % 1000;
@@ -156,6 +177,9 @@ function showLoadTime() {
   loadEl.className = `load-time ${speed}`;
   loadEl.innerHTML = `⚡ ${timeStr}`;
 }
+/** 入场动画只给前几张卡片，避免 100+ 元素同时动画 */
+const ANIM_LIMIT = 8;
+
 function buildCategories(cats) {
   $$(".skeleton-grid").forEach((el) => el.remove());
   const cont = $("catContainer");
@@ -169,7 +193,8 @@ function buildCategories(cats) {
     const sec = document.createElement("section");
     sec.className = "cat-section";
     sec.dataset.id = cat.id;
-    sec.style.animationDelay = `${ci * 0.07}s`;
+    if (ci < ANIM_LIMIT) sec.style.animationDelay = `${ci * 0.07}s`;
+    else sec.style.animation = "none";
     sec.innerHTML = ` <div class="cat-header"> <div class="cat-icon-wrap" style="background:${cat.color}22;">${cat.icon}</div> <h2 class="cat-name">${esc(cat.name)}</h2> <span class="cat-count">${isLocked ? "🔒 已加密" : cat.links.length + " 个链接"}</span> </div> <div class="links-grid" id="g-${cat.id}"></div>`;
     const grid = sec.querySelector(`#g-${cat.id}`);
     if (isLocked) {
@@ -186,7 +211,8 @@ function buildCategories(cats) {
         a.className = "link-card";
         a.target = "_blank";
         a.rel = "noopener noreferrer";
-        a.style.animationDelay = `${li * 0.04}s`;
+        if (li < ANIM_LIMIT) a.style.animationDelay = `${li * 0.04}s`;
+        else a.style.animation = "none";
         a.setAttribute("aria-label", `${link.name}— ${link.desc}`);
         a.innerHTML = ` <span class="card-emoji">${link.icon}</span> <div class="card-name">${esc(link.name)}</div> <div class="card-desc">${esc(link.desc)}</div> <div class="card-arrow">前往访问 →</div>`;
         if (link.url === "#history") {
@@ -239,19 +265,30 @@ function doSearch(q) {
     el.innerHTML = ` <p class="result-count">搜索 "<strong>${esc(q)}</strong>"</p> <div class="search-empty"> <div class="search-empty-icon">🔍</div> <h3>未找到结果</h3><p>试试其他关键词吧～</p> </div>`;
     return;
   }
-  el.innerHTML = ` <p class="result-count">找到 <strong>${results.length}</strong> 个与 "<strong>${esc(q)}</strong>" 相关的结果</p> <div id="searchGrid" class="links-grid"> ${results.map((r, i) => ` <a class="link-card search-result-card" data-index="${i}" style="animation-delay:${i * 0.03}s"> <span class="card-emoji">${r.icon}</span> <div class="card-name">${hi(r.name, q)}</div> <div class="card-desc">${hi(r.desc, q)}</div> <div class="card-arrow" style="color:${r.catColor}">${esc(r.catName)}→</div> </a>`).join("")}</div>`;
+  el.innerHTML = ` <p class="result-count">找到 <strong>${results.length}</strong> 个与 "<strong>${esc(q)}</strong>" 相关的结果</p> <div id="searchGrid" class="links-grid"> ${results
+    .map(
+      (r, i) =>
+        ` <a class="link-card search-result-card" data-index="${i}"${
+          i < ANIM_LIMIT
+            ? ` style="animation-delay:${i * 0.03}s"`
+            : ` style="animation:none"`
+        }> <span class="card-emoji">${r.icon}</span> <div class="card-name">${hi(r.name, q)}</div> <div class="card-desc">${hi(r.desc, q)}</div> <div class="card-arrow" style="color:${r.catColor}">${esc(r.catName)}→</div> </a>`,
+    )
+    .join("")}</div>`;
   $$(".search-result-card").forEach((el) => {
-    const idx = parseInt(el.getAttribute("data-index"));
-    const result = results[idx];
-    el.href = result.showModal ? "#" : result.url;
-    el.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (result.showModal) {
+    const result = results[parseInt(el.getAttribute("data-index"), 10)];
+    if (result.showModal) {
+      el.href = "#";
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
         openModal(result.name, result.url);
-      } else {
-        window.open(result.url, "_blank", "noopener");
-      }
-    });
+      });
+    } else {
+      // 保持原生 <a>：Ctrl/⌘+点击、中键仍然可用
+      el.href = result.url;
+      el.target = "_blank";
+      el.rel = "noopener noreferrer";
+    }
   });
 }
 function clearSearch() {
@@ -383,29 +420,14 @@ function closeNotifModal() {
   $("notifModal").classList.remove("show");
   document.body.style.overflow = "";
 }
-let historyLoaded = false;
 let historyTimelineBuilt = false;
-async function openHistoryModal() {
+function openHistoryModal() {
   if (S.sidebarOpen) closeSidebar();
+  // 历史面板骨架已内嵌，不再运行时 fetch
   $("historyOverlay").classList.add("show");
   $("historyModal").classList.add("show");
   document.body.style.overflow = "hidden";
-  if (!historyLoaded) {
-    const body = $("historyModalBody");
-    try {
-      const res = await fetch("./history-content.html");
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const html = await res.text();
-      body.innerHTML = html;
-      historyLoaded = true;
-      buildHistoryTimeline();
-    } catch (err) {
-      body.innerHTML = `<div class="history-loading"><p>加载失败，请稍后重试</p></div>`;
-      console.error("[History] 加载失败:", err);
-    }
-  } else if (!historyTimelineBuilt) {
-    buildHistoryTimeline();
-  }
+  if (!historyTimelineBuilt) buildHistoryTimeline();
 }
 function buildHistoryTimeline() {
   const timelineData = window.HISTORY_DATA || [];
@@ -451,11 +473,8 @@ function closeHistoryModal() {
 function checkNotifications() {
   const notifs = S.data.notifications || [];
   if (!notifs.length) return;
-  const unseen = getUnseenCount();
+  // 只更新红点，不再自动弹窗（避免遮挡首屏、拖累 LCP/CLS）
   updateNotifBadge();
-  if (unseen > 0) {
-    setTimeout(() => openNotifModal(), 600);
-  }
 }
 let S_pendingPasswordCatId = null;
 function openPasswordModal(catId) {
@@ -463,7 +482,8 @@ function openPasswordModal(catId) {
   S_pendingPasswordCatId = catId;
   const config = S.data.passwordConfig || {};
   const cat = S.data.categories.find((c) => c.id === catId);
-  $("passwordModalTitle").textContent = `🔐 ${esc(cat.name || "分类")}`;
+  // textContent 无需 esc()，否则会二次转义
+  $("passwordModalTitle").textContent = `🔐 ${cat.name || "分类"}`;
   $("passwordModalDesc").textContent =
     config.description || "此分类需要密码验证后才能查看";
   $("passwordHint").textContent = config.hint || "关注公众号获取密码";
@@ -548,6 +568,10 @@ function togglePasswordVisibility() {
 function safeOn(el, event, handler) {
   if (el) el.addEventListener(event, handler);
 }
+function isOpen(id) {
+  const el = $(id);
+  return !!el && el.classList.contains("show");
+}
 function bindEvents() {
   safeOn($("themeToggle"), "click", toggleTheme);
   safeOn($("hamburger"), "click", () =>
@@ -594,27 +618,13 @@ function bindEvents() {
   safeOn($("modalClose"), "click", closeModal);
   safeOn($("modalSkip"), "click", closeModal);
   safeOn($("modalOverlay"), "click", closeModal);
-  document.addEventListener("keydown", (e) => {
-    const modal = $("modal");
-    if (e.key === "Escape" && modal && modal.classList.contains("show"))
-      closeModal();
-  });
+  safeOn($("footerHistory"), "click", openHistoryModal);
   safeOn($("notifBell"), "click", openNotifModal);
   safeOn($("notifOverlay"), "click", closeNotifModal);
   safeOn($("notifModalClose"), "click", closeNotifModal);
   safeOn($("notifModalConfirm"), "click", closeNotifModal);
-  document.addEventListener("keydown", (e) => {
-    const notifModal = $("notifModal");
-    if (e.key === "Escape" && notifModal && notifModal.classList.contains("show"))
-      closeNotifModal();
-  });
   safeOn($("historyOverlay"), "click", closeHistoryModal);
   safeOn($("historyModalClose"), "click", closeHistoryModal);
-  document.addEventListener("keydown", (e) => {
-    const histModal = $("historyModal");
-    if (e.key === "Escape" && histModal && histModal.classList.contains("show"))
-      closeHistoryModal();
-  });
   safeOn($("passwordModalClose"), "click", closePasswordModal);
   safeOn($("passwordModalOverlay"), "click", closePasswordModal);
   safeOn($("passwordToggle"), "click", togglePasswordVisibility);
@@ -625,16 +635,26 @@ function bindEvents() {
   });
   safeOn($("passwordInput"), "keydown", (e) => {
     if (e.key === "Enter") verifyPassword();
-    if (e.key === "Escape") closePasswordModal();
   });
+
+  // Esc 统一处理：合并原先 4 份 keydown，只关当前真正打开的那个
   document.addEventListener("keydown", (e) => {
-    const passwordModal = $("passwordModal");
-    if (e.key === "Escape" && passwordModal && passwordModal.classList.contains("show"))
-      closePasswordModal();
+    if (e.key !== "Escape") return;
+    if (isOpen("passwordModal")) return closePasswordModal();
+    if (isOpen("notifModal")) return closeNotifModal();
+    if (isOpen("historyModal")) return closeHistoryModal();
+    if (isOpen("modal")) return closeModal();
+  });
+
+  // 前进/后退时与地址栏 ?cat= 保持同步
+  window.addEventListener("popstate", () => {
+    const wanted = new URLSearchParams(location.search).get("cat");
+    const ok =
+      wanted && S.data && S.data.categories.some((c) => c.id === wanted);
+    selectCat(ok ? wanted : "all", { instant: true });
   });
 }
 document.addEventListener("DOMContentLoaded", () => {
-  PERF.domContentLoaded = performance.now();
   applyTheme(S.theme);
   bindEvents();
   loadData();

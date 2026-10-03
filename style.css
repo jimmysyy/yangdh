@@ -9,7 +9,7 @@
   --border: rgba(0, 0, 0, 0.08);
   --border-card: rgba(0, 0, 0, 0.06);
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 24px rgba(140, 44, 44, 0.09);
+  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.09);
   --shadow-hover: 0 10px 40px rgba(0, 0, 0, 0.13);
   --accent: #0071e3;
   --radius-sm: 10px;
@@ -398,8 +398,8 @@ a {
   border-radius: var(--radius-md);
   padding: 18px 15px;
   cursor: pointer;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* 卡片上不加 backdrop-filter：这里有 100+ 张卡片，模糊是移动端 GPU 的主要开销，
+     而卡片底色本身已经接近不透明，视觉收益极小 */
   box-shadow: var(--shadow-sm);
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
@@ -501,6 +501,17 @@ mark {
   flex: 1;
   min-width: auto;
 }
+/* 页脚的历史入口。分类里的那个在加密分类内，不输密码点不到，所以这里再给一个 */
+.footer-history {
+  background: none;
+  border: 0;
+  padding: 2px 0;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 .footer code {
   font-size: 11px;
   background: var(--border);
@@ -514,11 +525,9 @@ mark {
   border-bottom: 1px dotted var(--text-tertiary);
 }
 .footer a:hover {
-  color: var(--primary);
-  border-bottom-color: var(--primary);
-}
-.footer-link {
-  cursor: pointer;
+  /* 原来写的是 var(--primary)，该变量从未定义，整条声明会被浏览器丢弃 */
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 .load-time {
   display: inline-flex;
@@ -531,7 +540,9 @@ mark {
   border-radius: 12px;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  transition: all var(--t-fast) var(--ease);
+  transition:
+    background var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease);
   opacity: 0;
   animation: fadeInScale 0.5s var(--ease) 0.2s both;
 }
@@ -672,24 +683,9 @@ mark {
     background-position: -200% 0;
   }
 }
-.cat-section:nth-child(1) {
-  animation-delay: 0.04s;
-}
-.cat-section:nth-child(2) {
-  animation-delay: 0.09s;
-}
-.cat-section:nth-child(3) {
-  animation-delay: 0.14s;
-}
-.cat-section:nth-child(4) {
-  animation-delay: 0.19s;
-}
-.cat-section:nth-child(5) {
-  animation-delay: 0.24s;
-}
-.cat-section:nth-child(6) {
-  animation-delay: 0.29s;
-}
+/* 这里原有 .cat-section:nth-child(1..6) 的 animation-delay 规则，已删除：
+   main.js 会给每个 section 写内联 animationDelay，优先级更高，那 6 条规则从未生效，
+   而且只有 6 条、分类却有 11 个。 */
 @media (max-width: 1024px) {
   :root {
     --sidebar-w: 190px;
@@ -736,14 +732,41 @@ mark {
     right: 14px;
   }
 }
+/* 全站唯一的 480px 断点（原来分散在三处，已合并） */
 @media (max-width: 480px) {
+  .navbar {
+    padding: 0 14px;
+    gap: 10px;
+  }
   .links-grid {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
-  .navbar {
-    padding: 0 14px;
-    gap: 10px;
+  .modal {
+    width: 95%;
+    max-width: 360px;
+  }
+  .modal-content {
+    padding: 20px 16px;
+  }
+  .modal-header h2 {
+    font-size: 18px;
+  }
+  #historyModal {
+    width: 95%;
+    max-width: none;
+  }
+  .history-container {
+    padding: 20px 16px 16px;
+  }
+  .history-hero h2 {
+    font-size: 19px;
+  }
+  .tl-card {
+    padding: 14px;
+  }
+  .tl-title {
+    font-size: 15px;
   }
 }
 @media (max-width: 360px) {
@@ -1297,51 +1320,50 @@ mark {
   padding: 1px 5px;
   border-radius: 4px;
 }
-.history-loading {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--text-secondary);
+/* 无 JS 静态索引（由 tools/build.js 依据 nav.json 生成，出现在 index.html 的 noscript 里）。
+   放在这里而不是 index.html，因为 style.css 可长期缓存，而 index.html 不可。
+   404 页的同类索引样式是内联在 404.html 里的 —— 那个页面不在首屏关键路径上，
+   不该为了它让每个访客都多下载一点 style.css。 */
+noscript {
+  display: block;
+  padding: 8px 0 28px;
 }
-.history-loading .spinner {
-  display: inline-block;
-  width: 28px;
-  height: 28px;
-  border: 3px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  margin-bottom: 12px;
+noscript h2 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin: 0 0 4px;
 }
-@keyframes spin {
-  to { transform: rotate(360deg); }
+noscript h3 {
+  font-size: 14.5px;
+  font-weight: 600;
+  margin: 18px 0 8px;
 }
-@media (max-width: 480px) {
-  #historyModal {
-    width: 95%;
-    max-width: none;
-  }
-  .history-container {
-    padding: 20px 16px 16px;
-  }
-  .history-hero h2 {
-    font-size: 19px;
-  }
-  .tl-card {
-    padding: 14px;
-  }
-  .tl-title {
-    font-size: 15px;
-  }
+noscript ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 6px 16px;
 }
-@media (max-width: 480px) {
-  .modal {
-    width: 95%;
-    max-width: 360px;
+noscript a {
+  font-size: 13px;
+  color: var(--accent);
+}
+noscript a:hover {
+  text-decoration: underline;
+}
+
+/* 尊重系统"减少动态效果"设置 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
-  .modal-content {
-    padding: 20px 16px;
-  }
-  .modal-header h2 {
-    font-size: 18px;
+  html {
+    scroll-behavior: auto;
   }
 }
+
